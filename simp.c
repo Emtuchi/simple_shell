@@ -12,7 +12,7 @@ int main(void)
 	size_t size = 0;
 	ssize_t outpt;
 	char *env[] = {NULL};
-	char *argv[] = {"/bin/ls", NULL};
+	char **argv = {NULL};
 	char *command = "/bin/ls";
 	char *s = "#cisfun$ ";
 	int len = _strlen(s);
@@ -23,13 +23,15 @@ int main(void)
 		fflush(stdout);
 		outpt = getline(&input, &size, stdin);
 
+
 		if (outpt == -1)
 		{
 			write(1, "\n", 2);
 			return (1);
 		}
 
-		input[_strlen(input) - 1] = '\0';
+		input = rm_nwline(input);
+		argv = srt_input(input);
 
 		if (_strcmp(input, "/bin/ls") != 0)
 		{
