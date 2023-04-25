@@ -24,14 +24,14 @@ int main(void)
 
 		if (outpt == -1)
 		{
-			write(1, "\n", 2);
+			write(1, "\n", 1);
 			return (1);
 		}
 
 		input = rm_nwline(input);
 		argv = srt_input(input);
-
 		command = get_path(argv[0]);
+
 		execpid(command, argv, environ);
 	}
 
