@@ -17,3 +17,30 @@ int _strlen(const char *string)
 
 	return (i);
 }
+
+/**
+ * _strcat - concatnate strings
+ * @dest: destination string
+ * @src: source string
+ *
+ * Return: the result
+ */
+
+char *_strcat(char *dest, const char *src)
+{
+	char *result = dest;
+
+	while (*dest != '\0')
+	{
+		dest++;
+	}
+
+	while (*src != '\0')
+	{
+		*dest++ = *src++;
+	}
+
+	*dest = '\0';
+
+	return (result);
+}
