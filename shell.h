@@ -21,7 +21,7 @@ char *rm_nwline(char *str);
 char **srt_input(char *str);
 char *_strcat(char *dest, const char *src);
 char *_strcpy(char *dest, const char *src);
-char *_getenv(const char*name);
+char *_getenv(const char *name);
 char *mkpath(char *path_tok, char *cmd);
 char *get_path(char *cmd);
 void sigint_stop(int sig_num);
