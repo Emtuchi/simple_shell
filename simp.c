@@ -1,6 +1,19 @@
 #include "shell.h"
 
 /**
+ * sigint_stop - stop ctrl c
+ * @sig_num: signal
+ */
+
+void sigint_stop(int sig_num)
+{
+	(void)sig_num;
+
+	write(1, "\n", 1);
+	write(1, "($) ", 4);
+}
+
+/**
  * main - execution stage
  *
  * Return: 0 on success
@@ -8,27 +21,34 @@
 
 int main(void)
 {
-	char *input = NULL;
+	char *input = NULL, *command;
 	size_t size = 0;
 	ssize_t outpt;
-	char **argv = {NULL};
-	char *command;
-	char *s = "($) ";
-	int len = _strlen(s);
+	char **argv = NULL;
+
+	signal(SIGINT, sigint_stop);
 
 	while (1)
 	{
-		write(1, s, len);
+		write(1, "($) ", 4);
 		fflush(stdout);
 		outpt = getline(&input, &size, stdin);
+		if (!input)
+		{
+			exit(1);
+		}
 
 		if (outpt == -1)
 		{
 			write(1, "\n", 1);
-			return (1);
+			exit(1);
 		}
 
-		input = rm_nwline(input);
+		if (!_strlen(input))
+		{
+			continue;
+		}
+
 		argv = srt_input(input);
 		command = get_path(argv[0]);
 
@@ -36,7 +56,7 @@ int main(void)
 	}
 
 	free(input);
-	input = NULL;
+	free(command);
 	size = 0;
 
 	return (0);

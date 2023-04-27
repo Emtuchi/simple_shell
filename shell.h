@@ -9,6 +9,7 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <errno.h>
+#include <signal.h>
 
 extern char **environ;
 
@@ -23,5 +24,6 @@ char *_strcpy(char *dest, const char *src);
 char *_getenv(const char*name);
 char *mkpath(char *path_tok, char *cmd);
 char *get_path(char *cmd);
+void sigint_stop(int sig_num);
 
 #endif
