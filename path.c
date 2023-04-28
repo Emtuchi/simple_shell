@@ -12,6 +12,9 @@ char *get_path(char *cmd)
 	char *path, *path_dup, *path_tok, *file_path;
 	struct stat str;
 
+	if (cmd == NULL)
+		return (NULL);
+
 	path = _getenv("PATH");
 
 	if (path)
@@ -59,8 +62,11 @@ char *get_path(char *cmd)
 
 char *mkpath(char *path_tok, char *cmd)
 {
-	char *file_path, *result;
+	char *file_path;
 	int len, i;
+
+	if (path_tok == NULL || cmd == NULL)
+		return (NULL);
 
 	len = _strlen(path_tok) + _strlen(cmd) + 2;
 	file_path = malloc(sizeof(char) * len);
@@ -75,9 +81,9 @@ char *mkpath(char *path_tok, char *cmd)
 
 	file_path[len - 1] = '\0';
 
-	result = _strcpy(file_path, path_tok);
-	result = _strcat(result, "/");
-	result = _strcat(result, cmd);
+	file_path = _strcpy(file_path, path_tok);
+	file_path = _strcat(file_path, "/");
+	file_path = _strcat(file_path, cmd);
 
-	return (result);
+	return (file_path);
 }

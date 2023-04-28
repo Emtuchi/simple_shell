@@ -21,8 +21,8 @@ void sigint_stop(int sig_num)
 
 int main(void)
 {
-	char *input = NULL, *command;
-	size_t size = 0;
+	char *input = NULL, *cmd;
+	size_t size = 1024;
 	ssize_t outpt;
 	char **argv = NULL;
 
@@ -38,6 +38,7 @@ int main(void)
 		outpt = getline(&input, &size, stdin);
 		if (outpt == -1)
 		{
+			free(input);
 			write(1, "\n", 1);
 			exit(1);
 		}
@@ -46,15 +47,14 @@ int main(void)
 			continue;
 
 		argv = srt_input(input);
-		command = get_path(argv[0]);
+		cmd = get_path(argv[0]);
 
-		if (command != NULL)
-		{
-			execpid(command, argv, environ);
-			free(command);
-		}
+		if (cmd != NULL)
+			execpid(cmd, argv, environ);
 
-		free(argv);
+		_free(argv);
+		free(input);
+		input = NULL;
 	}
 
 	return (0);
@@ -73,7 +73,7 @@ int main(void)
 int execpid(char *command, char *argv[], char **env)
 {
 	pid_t pid;
-	int reslt;
+	int reslt, parent;
 
 	reslt = access(command, X_OK);
 
@@ -93,13 +93,13 @@ int execpid(char *command, char *argv[], char **env)
 	{
 		if (execve(command, argv, env) == -1)
 		{
-			perror(command);
 			exit(EXIT_FAILURE);
 		}
 	}
 	else
 	{
-		wait(NULL);
+		wait(&parent);
+		fflush(stdout);
 	}
 
 	return (0);

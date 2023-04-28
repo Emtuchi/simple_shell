@@ -11,6 +11,9 @@ char *_getenv(const char *name)
 {
 	int row = 0, column = 0;
 
+	if (name == NULL)
+		return (NULL);
+
 	while (environ[row])
 	{
 		while (environ[row][column] && *name)

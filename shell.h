@@ -25,7 +25,6 @@ char *_getenv(const char *name);
 char *mkpath(char *path_tok, char *cmd);
 char *get_path(char *cmd);
 void sigint_stop(int sig_num);
-void _free1(char *mem);
-void _free2(char **mem);
+void _free(char **mem);
 
 #endif

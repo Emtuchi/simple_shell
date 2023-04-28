@@ -9,13 +9,14 @@
 
 int _strlen(const char *string)
 {
-	int i;
+	int i = 0;
 
 	if (!string)
 		return (0);
 
-	for (i = 0; string[i] != '\0'; i++)
+	while (*string++)
 	{
+		i++;
 	}
 
 	return (i);
@@ -38,12 +39,12 @@ char *_strcat(char *dest, const char *src)
 		return (NULL);
 	}
 
-	while (*dest != '\0')
+	while (*dest)
 	{
 		dest++;
 	}
 
-	while (*src != '\0')
+	while (*src)
 	{
 		*dest++ = *src++;
 	}
@@ -51,4 +52,30 @@ char *_strcat(char *dest, const char *src)
 	*dest = '\0';
 
 	return (result);
+}
+
+/**
+ * _free - free memory
+ * @mem: memory to free
+ */
+
+void _free(char **mem)
+{
+	char **mem_tmp;
+
+	if (mem == NULL)
+	{
+		return;
+	}
+
+	mem_tmp = mem;
+
+	while (*mem_tmp != NULL)
+	{
+		free(*mem_tmp);
+		*mem_tmp = NULL;
+	}
+
+	free(mem_tmp);
+	mem_tmp = NULL;
 }

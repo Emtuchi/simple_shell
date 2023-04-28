@@ -87,6 +87,9 @@ char *_strdup(const char *str)
 	char *new_string;
 	int i;
 
+	if (str == NULL)
+		return (NULL);
+
 	len = _strlen(str) + 1;
 	new_string = malloc(len);
 
@@ -115,9 +118,14 @@ char *_strcpy(char *dest, const char *src)
 {
 	char *ptr;
 
+	if (dest == NULL || src == NULL)
+	{
+		return (NULL);
+	}
+
 	ptr = dest;
 
-	while (*src != '\0')
+	while (*src)
 	{
 		*ptr++ = *src++;
 	}
@@ -137,6 +145,9 @@ char *_strcpy(char *dest, const char *src)
 char *rm_nwline(char *str)
 {
 	char *sub = str;
+
+	if (str == NULL)
+		return (NULL);
 
 	sub = strtok(sub, "\n");
 	return (sub);
