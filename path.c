@@ -42,9 +42,7 @@ char *get_path(char *cmd)
 		free(path_dup);
 
 		if (stat(cmd, &str) == 0)
-		{
 			return (cmd);
-		}
 
 		return (NULL);
 	}
