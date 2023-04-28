@@ -59,7 +59,7 @@ char *get_path(char *cmd)
 
 char *mkpath(char *path_tok, char *cmd)
 {
-	char *file_path;
+	char *file_path, *result;
 	int len, i;
 
 	len = _strlen(path_tok) + _strlen(cmd) + 2;
@@ -73,9 +73,11 @@ char *mkpath(char *path_tok, char *cmd)
 		file_path[i] = 0;
 	}
 
-	_strcpy(file_path, path_tok);
-	_strcat(file_path, "/");
-	_strcat(file_path, cmd);
+	file_path[len - 1] = '\0';
 
-	return (file_path);
+	result = _strcpy(file_path, path_tok);
+	result = _strcat(result, "/");
+	result = _strcat(result, cmd);
+
+	return (result);
 }

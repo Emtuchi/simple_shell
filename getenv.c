@@ -9,20 +9,20 @@
 
 char *_getenv(const char *name)
 {
-	int i = 0, j = 0;
+	int row = 0, column = 0;
 
-	while (environ[i])
+	while (environ[row])
 	{
-		while (environ[i][j] && *name)
+		while (environ[row][column] && *name)
 		{
-			if (environ[i][j] != *name || (environ[i][j] == '='))
+			if (environ[row][column] != *name || (environ[row][column] == '='))
 				break;
-			j++, name++;
+			column++, name++;
 		}
 
-		if (environ[i][j] == '=' && !*name)
-			return ((*(environ + i) + ++j));
-		i++;
+		if (environ[row][column] == '=' && !*name)
+			return ((*(environ + row) + ++column));
+		row++;
 
 	}
 

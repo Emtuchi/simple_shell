@@ -45,19 +45,20 @@ int _strcmp(const char *string1, const char *string2)
 char **srt_input(char *str)
 {
 	char **args;
-	char *token;
-	int i = 0;
+	char *token, *dup_dest;
+	int i = 0, c = _strlen(str);
 
 	if (!str)
 		return (NULL);
 
-	args = malloc(sizeof(char *) * _strlen(str));
+	args = malloc(sizeof(char *) * c);
 
 	if (!args)
 		return (NULL);
 
 	str = rm_nwline(str);
-	token = strtok(str, " ");
+	dup_dest = _strdup(str);
+	token = strtok(dup_dest, " ");
 
 	while (token != NULL)
 	{
@@ -67,6 +68,8 @@ char **srt_input(char *str)
 	}
 
 	args[i] = NULL;
+
+	free(dup_dest);
 
 	return (args);
 }
@@ -89,10 +92,12 @@ char *_strdup(const char *str)
 
 	if (new_string != NULL)
 	{
-		for (i = 0; i < len; i++)
+		for (i = 0; i < len - 1; i++)
 		{
 			new_string[i] = str[i];
 		}
+
+		new_string[i] = '\0';
 	}
 
 	return (new_string);

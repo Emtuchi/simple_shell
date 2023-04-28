@@ -11,6 +11,9 @@ int _strlen(const char *string)
 {
 	int i;
 
+	if (!string)
+		return (0);
+
 	for (i = 0; string[i] != '\0'; i++)
 	{
 	}
@@ -29,6 +32,11 @@ int _strlen(const char *string)
 char *_strcat(char *dest, const char *src)
 {
 	char *result = dest;
+
+	if (dest == NULL || src == NULL)
+	{
+		return (NULL);
+	}
 
 	while (*dest != '\0')
 	{
