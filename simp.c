@@ -31,9 +31,8 @@ int main(void)
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
-		{
 			write(1, "($) ", 4);
-		}
+
 		fflush(stdout);
 		outpt = getline(&input, &size, stdin);
 		if (outpt == -1)
@@ -46,12 +45,8 @@ int main(void)
 			continue;
 
 		argv = srt_input(input);
-
-		if (argv != NULL)
-		{
-			argv[0] = get_path(argv[0]);
-			execpid(argv[0], argv, environ);
-		}
+		argv[0] = get_path(argv[0]);
+		execpid(argv[0], argv, environ);
 
 		free(input);
 		 _free(argv);
