@@ -21,7 +21,7 @@ void sigint_stop(int sig_num)
 
 int main(void)
 {
-	char *input = NULL, *cmd;
+	char *input = NULL;
 	size_t size = 1024;
 	ssize_t outpt;
 	char **argv = NULL;
@@ -39,7 +39,6 @@ int main(void)
 		if (outpt == -1)
 		{
 			free(input);
-			write(1, "\n", 1);
 			exit(1);
 		}
 
@@ -47,13 +46,15 @@ int main(void)
 			continue;
 
 		argv = srt_input(input);
-		cmd = get_path(argv[0]);
 
-		if (cmd != NULL)
-			execpid(cmd, argv, environ);
+		if (argv != NULL)
+		{
+			argv[0] = get_path(argv[0]);
+			execpid(argv[0], argv, environ);
+		}
 
-		_free(argv);
 		free(input);
+		 _free(argv);
 		input = NULL;
 	}
 
@@ -73,14 +74,10 @@ int main(void)
 int execpid(char *command, char *argv[], char **env)
 {
 	pid_t pid;
-	int reslt, parent;
+	int parent;
 
-	reslt = access(command, X_OK);
-
-	if (reslt == -1)
-	{
-		exit(EXIT_FAILURE);
-	}
+	if (!command)
+		exit(-1);
 
 	pid = fork();
 
@@ -93,6 +90,7 @@ int execpid(char *command, char *argv[], char **env)
 	{
 		if (execve(command, argv, env) == -1)
 		{
+			_free(argv);
 			exit(EXIT_FAILURE);
 		}
 	}
