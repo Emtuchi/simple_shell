@@ -44,6 +44,7 @@ char *get_path(char *cmd)
 		if (stat(cmd, &str) == 0)
 			return (cmd);
 
+
 		return (NULL);
 	}
 

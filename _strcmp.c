@@ -46,20 +46,25 @@ char **srt_input(char *str)
 {
 	char **args;
 	char *token, *dup_dest;
-	int i = 0, c = _strlen(str);
+	int i = 0, c = 0;
 
 	if (!str)
 		return (NULL);
 
-	args = malloc(sizeof(char *) * c);
-
-	if (!args)
-		return (NULL);
-
 	str = rm_nwline(str);
 	dup_dest = _strdup(str);
-	token = strtok(dup_dest, " ");
+	token = strtok(str, " ");
+	while (token != NULL)
+	{
+		c++;
+		token = strtok(NULL, " ");
+	}
 
+	args = (char **)malloc(sizeof(char *) * (c + 1));
+	if (args == NULL)
+		return (NULL);
+
+	token = strtok(dup_dest, " ");
 	while (token != NULL)
 	{
 		args[i] = _strdup(token);
@@ -85,7 +90,6 @@ char *_strdup(const char *str)
 {
 	int len;
 	char *new_string;
-	int i;
 
 	if (str == NULL)
 		return (NULL);
@@ -95,15 +99,12 @@ char *_strdup(const char *str)
 
 	if (new_string != NULL)
 	{
-		for (i = 0; i < len - 1; i++)
-		{
-			new_string[i] = str[i];
-		}
+		_strcpy(new_string, str);
 
-		new_string[i] = '\0';
+		return (new_string);
 	}
 
-	return (new_string);
+	return (NULL);
 }
 
 /**

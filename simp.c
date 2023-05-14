@@ -38,6 +38,9 @@ int main(void)
 		if (outpt == -1)
 		{
 			free(input);
+			if (isatty(STDIN_FILENO))
+				write(1, "\n", 1);
+
 			exit(1);
 		}
 
@@ -45,12 +48,9 @@ int main(void)
 			continue;
 
 		argv = srt_input(input);
-		argv[0] = get_path(argv[0]);
-		execpid(argv[0], argv, environ);
+		execpid(argv, input);
 
-		free(input);
-		 _free(argv);
-		input = NULL;
+		_free(argv);
 	}
 
 	return (0);
@@ -58,20 +58,20 @@ int main(void)
 
 /**
  * execpid - excecut a command
- * @command: command
+ * @input: inputed string
  * @argv: the command
- * @env: enviroment variable
  *
  * Return: 0 if success and 1 if not
  *
  */
 
-int execpid(char *command, char *argv[], char **env)
+int execpid(char *argv[], char *input)
 {
 	pid_t pid;
 	int parent;
+	char *cmd = NULL, *rubbish = argv[0];
 
-	if (!command)
+	if (!*argv)
 		exit(-1);
 
 	pid = fork();
@@ -83,11 +83,16 @@ int execpid(char *command, char *argv[], char **env)
 	}
 	else if (pid == 0)
 	{
-		if (execve(command, argv, env) == -1)
+		cmd = get_path(argv[0]);
+		if (cmd == NULL)
 		{
+			perror(rubbish);
+			free(input);
 			_free(argv);
 			exit(EXIT_FAILURE);
 		}
+		else
+			execve(cmd, argv, environ);
 	}
 	else
 	{
