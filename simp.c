@@ -48,6 +48,12 @@ int main(void)
 			continue;
 
 		argv = srt_input(input);
+		if (!argv || !argv[0])
+		{
+			_free(argv);
+			continue;
+		}
+
 		execpid(argv, input);
 
 		_free(argv);

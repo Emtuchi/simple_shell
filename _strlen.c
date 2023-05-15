@@ -71,8 +71,8 @@ void _free(char **mem)
 	{
 		free(*mem_tmp);
 		*mem_tmp = NULL;
+		mem_tmp++;
 	}
 
-	free(mem_tmp);
-	mem_tmp = NULL;
+	free(mem);
 }

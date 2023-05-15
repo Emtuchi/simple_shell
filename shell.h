@@ -13,7 +13,7 @@
 
 extern char **environ;
 
-int _strcmp(const char *string1, const char *string2);
+int _strcmp(char *string1, char *string2);
 size_t _strlen(const char *string);
 int execpid(char *argv[], char *input);
 char *_strdup(const char *str);

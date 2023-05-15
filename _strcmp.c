@@ -8,7 +8,7 @@
  * Return: 0 if true and -1 if wrong
  */
 
-int _strcmp(const char *string1, const char *string2)
+int _strcmp(char *string1, char *string2)
 {
 	int i, r = 0;
 
