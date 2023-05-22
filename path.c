@@ -46,11 +46,9 @@ char *get_path(char *cmd)
 
 
 		return (NULL);
-/*none of the above worked*/
 	}
 
 	return (NULL);
-/*nothing in this entire code worked i.e you inputed a rubbish command*/
 }
 
 /**
