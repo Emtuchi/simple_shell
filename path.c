@@ -21,7 +21,6 @@ char *get_path(char *cmd)
 	{
 		path_dup = _strdup(path);
 		path_tok = strtok(path_dup, ":");
-/*split path using :, so split :/bin:usr/bin/: to get just /bin*/
 
 		while (path_tok != NULL)
 		{
