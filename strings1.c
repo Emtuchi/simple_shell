@@ -1,7 +1,8 @@
 #include "shell.h"
 
 /**
- * srt_input - sort a string into preferred form i.e tokenized with space as delimeter
+ * srt_input - sort a string into preferred form
+ * i.e tokenized with space as delimeter
  * @str: string
  *
  * Return: string pointer
