@@ -25,7 +25,6 @@ char *get_path(char *cmd)
 		while (path_tok != NULL)
 		{
 			file_path = mkpath(path_tok, cmd);
-/*add /bin and / to ls to get /bin/ls*/
 
 			if (stat(file_path, &str) == 0)
 /*if what we got, in this case /bin/ls is a valid command*/
