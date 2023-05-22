@@ -15,7 +15,7 @@ extern char **environ;
 
 int _strcmp(char *string1, char *string2);
 size_t _strlen(const char *string);
-int execpid(char *argv[], char *input);
+int execpid(char *argv[], char *input, char *programme_name, int count);
 char *_strdup(const char *str);
 char *rm_nwline(char *str);
 char **srt_input(char *str);
@@ -26,5 +26,6 @@ char *mkpath(char *path_tok, char *cmd);
 char *get_path(char *cmd);
 void sigint_stop(int sig_num);
 void _free(char **mem);
+void error_print(char *file, char *cmd, int count);
 
 #endif

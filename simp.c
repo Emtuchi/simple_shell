@@ -15,15 +15,17 @@ void sigint_stop(int sig_num)
 
 /**
  * main - execution stage
+ * @ac: unused
+ * @av: will be used mostly for file_name
  *
  * Return: 0 on success
  */
 
-int main(void)
+int main(int ac __attribute__((unused)), char *av[])
 {
 	char *input = NULL;
-	size_t size = 1024;
-	ssize_t outpt;
+	size_t size = 0;
+	int count = 0;
 	char **argv = NULL;
 
 	signal(SIGINT, sigint_stop);
@@ -33,9 +35,7 @@ int main(void)
 		if (isatty(STDIN_FILENO))
 			write(1, "($) ", 4);
 
-		fflush(stdout);
-		outpt = getline(&input, &size, stdin);
-		if (outpt == -1)
+		if (getline(&input, &size, stdin) == -1)
 		{
 			free(input);
 			if (isatty(STDIN_FILENO))
@@ -54,7 +54,9 @@ int main(void)
 			continue;
 		}
 
-		execpid(argv, input);
+		count++;
+
+		execpid(argv, input, av[0], count);
 
 		_free(argv);
 	}
@@ -66,16 +68,18 @@ int main(void)
  * execpid - excecut a command
  * @input: inputed string
  * @argv: the command
+ * @programme_name: name of our shell executable
+ * @count: how many times programme is running
  *
- * Return: 0 if success and 1 if not
+ * Return: 0 if success
  *
  */
 
-int execpid(char *argv[], char *input)
+int execpid(char *argv[], char *input, char *programme_name, int count)
 {
 	pid_t pid;
 	int parent;
-	char *cmd = NULL, *rubbish = argv[0];
+	char *cmd = NULL;
 
 	if (!*argv)
 		exit(-1);
@@ -92,7 +96,7 @@ int execpid(char *argv[], char *input)
 		cmd = get_path(argv[0]);
 		if (cmd == NULL)
 		{
-			perror(rubbish);
+			error_print(programme_name, argv[0], count);
 			free(input);
 			_free(argv);
 			exit(EXIT_FAILURE);
