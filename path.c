@@ -42,7 +42,6 @@ char *get_path(char *cmd)
 		free(path_dup);
 
 		if (stat(cmd, &str) == 0)
-/*if the command was already executable i.e /bin/ls straight from trminal and we didnt need the above code*/
 			return (cmd);
 
 
