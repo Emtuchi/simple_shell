@@ -33,7 +33,6 @@ char *get_path(char *cmd)
 				return (file_path);
 			}
 			else
-/*incase we got something else i.e /usr/bin/local/ls, which doesnt work*/
 			{
 				free(file_path);
 				path_tok = strtok(NULL, ":");
