@@ -16,7 +16,6 @@ char *get_path(char *cmd)
 		return (NULL);
 
 	path = _getenv("PATH");
-/*search enviroment variable(environ) to get paths, looks kinda like PATH=/usr/local/sbin:/bin:usr/bin/:/bin/:*/
 
 	if (path)
 	{
