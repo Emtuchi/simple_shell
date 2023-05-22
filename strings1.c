@@ -16,24 +16,24 @@ char **srt_input(char *str)
 	if (!str)
 		return (NULL);
 
-	str = rm_nwline(str);/*remove new line character from string cos it causes errors*/
+	str = rm_nwline(str);
 	dup_dest = _strdup(str);
 	token = strtok(str, " ");
 	while (token != NULL)
 	{
-		c++;/*get number of strings we want to make*/
+		c++;
 		token = strtok(NULL, " ");
 	}
 
-	args = (char **)malloc(sizeof(char *) * (c + 1));/*+1 for NULL*/
+	args = (char **)malloc(sizeof(char *) * (c + 1));
 	if (args == NULL)
 		return (NULL);
 
 	token = strtok(dup_dest, " ");
 	while (token != NULL)
 	{
-		args[i] = _strdup(token);/*assign strings to this double pointer array, so we have an array of strings i.e ls -l*/
-		token = strtok(NULL, " ");/*continue tokenizing, its kinda like a recurssion*/
+		args[i] = _strdup(token);
+		token = strtok(NULL, " ");
 		i++;
 	}
 
