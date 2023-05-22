@@ -1,19 +1,22 @@
 #include "shell.h"
 
 /**
- * get_path - get the path of program i.e the /bin/ for ls to be /bin/ls
+ * path_maker - get the path of program i.e the /bin/ for ls to be /bin/ls
  * @cmd: command
  *
  * Return: path
  */
 
-char *get_path(char *cmd)
+char *path_maker(char *cmd)
 {
 	char *path, *path_dup, *path_tok, *file_path;
 	struct stat str;
 
 	if (cmd == NULL)
 		return (NULL);
+
+	if (stat(cmd, &str) == 0)
+		return (cmd);
 
 	path = _getenv("PATH");
 
@@ -40,10 +43,6 @@ char *get_path(char *cmd)
 		}
 
 		free(path_dup);
-
-		if (stat(cmd, &str) == 0)
-			return (cmd);
-
 
 		return (NULL);
 	}

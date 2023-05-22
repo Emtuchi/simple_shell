@@ -93,7 +93,7 @@ int execpid(char *argv[], char *input, char *programme_name, int count)
 	}
 	else if (pid == 0)
 	{
-		cmd = get_path(argv[0]);
+		cmd = path_maker(argv[0]);
 		if (cmd == NULL)
 		{
 			error_print(programme_name, argv[0], count);
