@@ -27,7 +27,6 @@ char *get_path(char *cmd)
 			file_path = mkpath(path_tok, cmd);
 
 			if (stat(file_path, &str) == 0)
-/*if what we got, in this case /bin/ls is a valid command*/
 			{
 				free(path_dup);
 
