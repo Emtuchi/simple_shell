@@ -36,7 +36,6 @@ char *get_path(char *cmd)
 			{
 				free(file_path);
 				path_tok = strtok(NULL, ":");
-/*continue moving through the string*/
 			}
 		}
 
