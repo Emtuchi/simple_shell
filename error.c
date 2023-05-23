@@ -7,16 +7,15 @@
  * @count: programme count
  */
 
-void error_print(char *file, char *cmd, int count)
+void error_print(char *file, char *cmd, size_t count)
 {
 	struct stat st;
-	char _count = count + '0';
 
 	if (access(cmd, F_OK) != 0)
 	{
 		write(STDERR_FILENO, file, _strlen(file));
 		write(STDERR_FILENO, ": ", 2);
-		write(STDERR_FILENO, &_count, 1);
+		print_int(count);
 		write(STDERR_FILENO, ": ", 2);
 		write(STDERR_FILENO, cmd, _strlen(cmd));
 		write(STDERR_FILENO, ": ", 2);
@@ -27,7 +26,7 @@ void error_print(char *file, char *cmd, int count)
 	{
 		write(STDERR_FILENO, file, _strlen(file));
 		write(STDERR_FILENO, ": ", 2);
-		write(STDERR_FILENO, &_count, 1);
+		print_int(count);
 		write(STDERR_FILENO, ": ", 2);
 		write(STDERR_FILENO, cmd, _strlen(cmd));
 		write(STDERR_FILENO, ": ", 2);
@@ -36,5 +35,28 @@ void error_print(char *file, char *cmd, int count)
 	else if (stat(cmd, &st) != 0)
 	{
 		perror(cmd);
+	}
+}
+
+/**
+ * print_int - print an int as a char
+ * @count: integer
+ */
+
+void print_int(size_t count)
+{
+	char num;
+	int ary[10];
+	int i, j;
+
+	for (i = 0; count > 0; i++)
+	{
+		ary[i] = count % 10;
+		count = count / 10;
+	}
+	for (j = i - 1; j >= 0; j--)
+	{
+		num = ary[j] + '0';
+		write(STDERR_FILENO, &num, 1);
 	}
 }
