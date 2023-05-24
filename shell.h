@@ -16,7 +16,7 @@ extern char **environ;
 int _strcmp(char *string1, char *string2);
 int _atoi(char *str);
 size_t _strlen(const char *string);
-int execpid(char *argv[], char *input, char *programme_name, int count);
+int execpid(char *argv[], char *input, char *programme_name, size_t count);
 char *_strdup(const char *str);
 char *rm_nwline(char *str);
 char **srt_input(char *str);
@@ -26,7 +26,9 @@ char *_getenv(const char *name);
 char *mkpath(char *path_tok, char *cmd);
 char *path_maker(char *cmd);
 void sigint_stop(int sig_num);
+int builtin_checker(char **argv, int status, char *input);
 void _free(char **mem);
-void error_print(char *file, char *cmd, int count);
+void error_print(char *file, char *cmd, size_t count);
+void print_int(size_t count);
 
 #endif

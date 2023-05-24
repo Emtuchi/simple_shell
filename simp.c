@@ -9,8 +9,8 @@ void sigint_stop(int sig_num)
 {
 	(void)sig_num;
 
-	write(1, "\n", 1);
-	write(1, "($) ", 4);
+	write(STDOUT_FILENO, "\n", 1);
+	write(STDOUT_FILENO, "($) ", 4);
 }
 
 /**
@@ -24,24 +24,25 @@ void sigint_stop(int sig_num)
 int main(int ac __attribute__((unused)), char *av[])
 {
 	char *input = NULL;
-	size_t size = 0;
-	int count = 0;
+	size_t size = 0, count = 0;
 	char **argv = NULL;
+	int status = 0;
 
 	signal(SIGINT, sigint_stop);
 
 	while (1)
 	{
+		count++;
 		if (isatty(STDIN_FILENO))
-			write(1, "($) ", 4);
+			write(STDOUT_FILENO, "($) ", 4);
 
 		if (getline(&input, &size, stdin) == -1)
 		{
 			free(input);
 			if (isatty(STDIN_FILENO))
-				write(1, "\n", 1);
+				write(STDOUT_FILENO, "\n", 1);
 
-			exit(1);
+			exit(EXIT_SUCCESS);
 		}
 
 		if (*input == '\n' || *input == '\0')
@@ -54,13 +55,13 @@ int main(int ac __attribute__((unused)), char *av[])
 			continue;
 		}
 
-		count++;
+		if (builtin_checker(argv, status, input) == 0)
+			continue;
 
-		execpid(argv, input, av[0], count);
+		status = execpid(argv, input, av[0], count);
 
 		_free(argv);
 	}
-
 	return (0);
 }
 
@@ -75,7 +76,7 @@ int main(int ac __attribute__((unused)), char *av[])
  *
  */
 
-int execpid(char *argv[], char *input, char *programme_name, int count)
+int execpid(char *argv[], char *input, char *programme_name, size_t count)
 {
 	pid_t pid;
 	int parent;
@@ -99,7 +100,7 @@ int execpid(char *argv[], char *input, char *programme_name, int count)
 			error_print(programme_name, argv[0], count);
 			free(input);
 			_free(argv);
-			exit(EXIT_FAILURE);
+			exit(EXIT_SUCCESS);
 		}
 		else
 			execve(cmd, argv, environ);
@@ -107,7 +108,8 @@ int execpid(char *argv[], char *input, char *programme_name, int count)
 	else
 	{
 		wait(&parent);
-		fflush(stdout);
+		if (WIFEXITED(parent))
+			return (WEXITSTATUS(parent));
 	}
 
 	return (0);
