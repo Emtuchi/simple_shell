@@ -9,8 +9,8 @@ void sigint_stop(int sig_num)
 {
 	(void)sig_num;
 
-	write(1, "\n", 1);
-	write(1, "($) ", 4);
+	write(STDOUT_FILENO, "\n", 1);
+	write(STDOUT_FILENO, "($) ", 4);
 }
 
 /**
@@ -34,15 +34,15 @@ int main(int ac __attribute__((unused)), char *av[])
 	{
 		count++;
 		if (isatty(STDIN_FILENO))
-			write(1, "($) ", 4);
+			write(STDOUT_FILENO, "($) ", 4);
 
 		if (getline(&input, &size, stdin) == -1)
 		{
 			free(input);
 			if (isatty(STDIN_FILENO))
-				write(1, "\n", 1);
+				write(STDOUT_FILENO, "\n", 1);
 
-			exit(1);
+			exit(EXIT_SUCCESS);
 		}
 
 		if (*input == '\n' || *input == '\0')
@@ -100,7 +100,7 @@ int execpid(char *argv[], char *input, char *programme_name, size_t count)
 			error_print(programme_name, argv[0], count);
 			free(input);
 			_free(argv);
-			exit(EXIT_FAILURE);
+			exit(EXIT_SUCCESS);
 		}
 		else
 			execve(cmd, argv, environ);
